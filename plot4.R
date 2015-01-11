@@ -1,0 +1,21 @@
+#read data into R, cut & clean data
+library(data.table)
+c1 <- fread("c:/Users/uphilli/Documents/Coursera_Data_Science/Exploratory_Data_Analysis/household_power_consumption.txt")
+c1$Date <- as.Date(c1$Date,"%d/%m/%Y")
+c2 <- c1[c1$Date <= '2007-02-02' & c1$Date >= '2007-02-01']
+c2$Global_active_power <- as.numeric(c2$Global_active_power)
+#plot 4
+par(mfrow = c(2,2))
+plot(c2$Global_active_power, ylab = "Global Active Power", type = "l", xaxt = "n", xlab = "")
+axis(1, at = c(0,1440,2880), labels = c("Thu","Fri","Sat"))
+plot(c2$Voltage, xlab = "datetime", ylab = "Voltage", type = "l", xaxt = "n")
+axis(1, at = c(0,1440,2880), labels = c("Thu","Fri","Sat"))
+plot(c2$Sub_metering_1, xlab = "", ylab = "Energy sub metering", type = "l", xaxt = "n" )
+lines(c2$Sub_metering_2, col = "red")
+lines(c2$Sub_metering_3, col = "blue")
+axis(1, at = c(0,1440,2880), labels = c("Thu","Fri","Sat"))
+legend("topright", legend = c("Sub_metering_1","Sub_metering_2","Sub_metering_3"),lty=c(1,1), col=c("black","blue","red"), bty = "n")
+plot(c2$Global_reactive_power, xlab = "datetime", ylab = "Global_reactive_power", type = "l", xaxt = "n")
+axis(1, at = c(0,1440,2880), labels = c("Thu","Fri","Sat"))
+dev.copy(png,filename = "/Users/uphilli/Documents/Coursera_Data_Science/Exploratory_Data_Analysis/Plot4.png", width =480, height = 480, bg = "white")
+dev.off()
